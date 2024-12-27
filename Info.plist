@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSInputMonitoringEnabled</key>
+	<true/>
+	<key>CFBundleIdentifier</key>
+	<string>com.example.racing</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>손쉬운 사용 권한이 필요합니다.</string>
+</dict>
+</plist>
