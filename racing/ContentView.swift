@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-// StopwatchViewModel 및 GlobalKeyboardMonitor 클래스가 프로젝트에 이미 포함되어 있다고 가정합니다.
-
 struct CustomButton: View {
     var title: String
     var action: () -> Void
@@ -37,6 +35,8 @@ struct CustomButton: View {
 }
 
 struct ContentView: View {
+    @EnvironmentObject var optionsViewModel: OptionsViewModel // ViewModel 사용
+
     @State private var transparency: Double = 0.9 // 초기 투명도 값
     @StateObject private var viewModel = StopwatchViewModel()
     private let keyboardMonitor = GlobalKeyboardMonitor()
@@ -45,7 +45,7 @@ struct ContentView: View {
     @State private var showStopConfirmation: Bool = false
     
     var body: some View {
-        VStack(spacing: 20) { // VStack 간격 설정
+        VStack(spacing: 20) { // VStack 간격 설정ㅌ
             // 투명도 조절 슬라이더
             HStack {
                 Text("Transparency: \(String(format: "%.2f", transparency))")
@@ -177,14 +177,9 @@ struct ContentView: View {
         .padding()
         .frame(minWidth: 350, maxWidth: 500, minHeight: 400, maxHeight: 600) // 전체 뷰의 최소 및 최대 크기 설정
         .onAppear {
-            setWindowAlwaysOnTop()
             startGlobalKeyboardMonitoring()
         }
-        .onDisappear {
-            keyboardMonitor.stopMonitoring()
-        }
     }
-    
     // MARK: - Private Methods
     
     private func startGlobalKeyboardMonitoring() {
@@ -207,28 +202,6 @@ struct ContentView: View {
     private func setWindowTransparency(_ alpha: Double) {
         if let window = NSApplication.shared.windows.first {
             window.alphaValue = alpha
-        }
-    }
-    
-    private func setWindowAlwaysOnTop() {
-        if let window = NSApplication.shared.windows.first,
-           let screen = NSScreen.main {
-            
-            let visibleFrame = screen.visibleFrame
-            
-            // 원하는 창 크기
-            let windowWidth: CGFloat = 350
-            let windowHeight: CGFloat = 400
-            
-            // 오른쪽 상단 위치 계산
-            let xPosition = visibleFrame.maxX - windowWidth - 5 // 여백 추가
-            let yPosition = visibleFrame.maxY - windowHeight - 5
-            
-            // 창 크기 및 위치 설정
-            window.setFrame(NSRect(x: xPosition, y: yPosition, width: windowWidth, height: windowHeight), display: true)
-            
-            // 창을 항상 위로 설정
-            window.level = .floating
         }
     }
 }
